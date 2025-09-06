@@ -18,31 +18,24 @@ const Register = () => {
     }))
   });
 
+  // Determine backend API URL
+  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const handleTeamSizeChange = (e) => {
-    const size = parseInt(e.target.value);
-    setTeamSize(size);
+    setTeamSize(parseInt(e.target.value));
   };
 
   const handleInputChange = (e, index, field) => {
     const value = e.target.value;
-    setFormData((prev) => {
+    setFormData(prev => {
       const updatedMembers = [...prev.members];
-      updatedMembers[index] = {
-        ...updatedMembers[index],
-        [field]: value
-      };
-      return {
-        ...prev,
-        members: updatedMembers
-      };
+      updatedMembers[index] = { ...updatedMembers[index], [field]: value };
+      return { ...prev, members: updatedMembers };
     });
   };
 
   const handleTeamNameChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      teamName: e.target.value
-    }));
+    setFormData(prev => ({ ...prev, teamName: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -54,14 +47,10 @@ const Register = () => {
     };
 
     try {
-     const API = process.env.REACT_APP_API_URL;
-
-     const response = await fetch(`${API}/api/register`, {
-     method: "POST",
-     headers: { "Content-Type": "application/json" },
-     body: JSON.stringify(submissionData),
-
-
+      const response = await fetch(`${API}/api/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submissionData)
       });
 
       const data = await response.json();
@@ -132,7 +121,7 @@ const Register = () => {
               Select Team Size
             </h3>
             <div className="flex flex-wrap gap-4">
-              {[1, 2, 3, 4].map((size) => (
+              {[1, 2, 3, 4].map(size => (
                 <label key={size} className="flex items-center cursor-pointer">
                   <input
                     type="radio"
@@ -209,11 +198,9 @@ const Register = () => {
                     />
                   </div>
 
-                  {/* Institution Name */}
+                  {/* Institution */}
                   <div>
-                    <label className="block text-gray-400 mb-2">
-                      Institution Name
-                    </label>
+                    <label className="block text-gray-400 mb-2">Institution Name</label>
                     <input
                       type="text"
                       value={formData.members[index].institution}
@@ -225,14 +212,10 @@ const Register = () => {
 
                   {/* Education Type */}
                   <div>
-                    <label className="block text-gray-400 mb-2">
-                      Select Education Type
-                    </label>
+                    <label className="block text-gray-400 mb-2">Education Type</label>
                     <select
                       value={formData.members[index].educationType}
-                      onChange={(e) =>
-                        handleInputChange(e, index, "educationType")
-                      }
+                      onChange={(e) => handleInputChange(e, index, "educationType")}
                       className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     >
@@ -247,17 +230,13 @@ const Register = () => {
 
                   {/* Graduation Year */}
                   <div>
-                    <label className="block text-gray-400 mb-2">
-                      Graduation Year (e.g., 2024)
-                    </label>
+                    <label className="block text-gray-400 mb-2">Graduation Year (e.g., 2024)</label>
                     <input
                       type="number"
                       min="2000"
                       max="2030"
                       value={formData.members[index].graduationYear}
-                      onChange={(e) =>
-                        handleInputChange(e, index, "graduationYear")
-                      }
+                      onChange={(e) => handleInputChange(e, index, "graduationYear")}
                       className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
@@ -265,9 +244,7 @@ const Register = () => {
 
                   {/* GitHub */}
                   <div>
-                    <label className="block text-gray-400 mb-2">
-                      GitHub (Optional)
-                    </label>
+                    <label className="block text-gray-400 mb-2">GitHub (Optional)</label>
                     <input
                       type="url"
                       value={formData.members[index].github}
@@ -278,9 +255,7 @@ const Register = () => {
 
                   {/* LinkedIn */}
                   <div>
-                    <label className="block text-gray-400 mb-2">
-                      LinkedIn (Optional)
-                    </label>
+                    <label className="block text-gray-400 mb-2">LinkedIn (Optional)</label>
                     <input
                       type="url"
                       value={formData.members[index].linkedin}
@@ -289,11 +264,9 @@ const Register = () => {
                     />
                   </div>
 
-                  {/* Coding Skill */}
+                  {/* Skill */}
                   <div className="md:col-span-2">
-                    <label className="block text-gray-400 mb-2">
-                      Enter a coding skill (e.g., JavaScript)
-                    </label>
+                    <label className="block text-gray-400 mb-2">Coding Skill (e.g., JavaScript)</label>
                     <input
                       type="text"
                       value={formData.members[index].skill}
