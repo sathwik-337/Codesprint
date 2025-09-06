@@ -52,12 +52,12 @@ const EventSchedule = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
+    window.addEventListener("resize", checkMobile);
+
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
@@ -134,13 +134,26 @@ const EventSchedule = () => {
       </h2>
 
       {/* Timeline */}
-      <div ref={lineRef} className="relative max-w-6xl mx-auto z-10 px-4 md:px-6">
+      <div
+        ref={lineRef}
+        className="relative max-w-6xl mx-auto z-10 px-4 md:px-6"
+      >
         {/* Static Gray Line */}
-        <div className={`absolute ${isMobile ? "left-4" : "left-1/2"} top-0 w-1 bg-gray-700 h-full ${isMobile ? "" : "transform -translate-x-1/2"}`} />
+        <div
+          className={`absolute ${
+            isMobile ? "left-4" : "left-1/2"
+          } top-0 w-1 bg-gray-700 h-full ${
+            isMobile ? "" : "transform -translate-x-1/2"
+          }`}
+        />
 
         {/* Smooth Animated Yellow Line */}
         <motion.div
-          className={`absolute ${isMobile ? "left-4" : "left-1/2"} top-0 w-1 bg-yellow-400 ${isMobile ? "" : "transform -translate-x-1/2"}`}
+          className={`absolute ${
+            isMobile ? "left-4" : "left-1/2"
+          } top-0 w-1 bg-yellow-400 ${
+            isMobile ? "" : "transform -translate-x-1/2"
+          }`}
           initial={{ height: 0 }}
           animate={{ height: `${scrollHeight}%` }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -149,25 +162,48 @@ const EventSchedule = () => {
         {events.map((event, index) => (
           <motion.div
             key={event.id}
-            className={`mb-12 md:mb-16 flex ${isMobile ? "justify-start" : (index % 2 === 0 ? "justify-start" : "justify-end")} relative`}
-            initial={{ opacity: 0, x: isMobile ? 150 : (index % 2 === 0 ? -150 : 150) }}
+            className={`mb-12 md:mb-16 flex ${
+              isMobile
+                ? "justify-start"
+                : index % 2 === 0
+                ? "justify-start"
+                : "justify-end"
+            } relative`}
+            initial={{
+              opacity: 0,
+              x: isMobile ? 150 : index % 2 === 0 ? -150 : 150,
+            }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
             {/* Timeline Dot */}
-            <div className={`absolute ${isMobile ? "left-4" : "left-1/2"} top-6 ${isMobile ? "transform -translate-x-1/2" : "transform -translate-x-1/2"} z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black border-2 border-yellow-400 text-yellow-400 font-bold`}>
+            <div
+              className={`absolute ${
+                isMobile ? "left-4" : "left-1/2"
+              } top-6 transform -translate-x-1/2 z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-black border-2 border-yellow-400 text-yellow-400 font-bold`}
+            >
               {event.id}
             </div>
 
             {/* Event Card */}
             <div
-              className={`${isMobile ? "w-full ml-12" : "w-5/12"} p-4 md:p-6 rounded-xl backdrop-blur-lg bg-white/10 shadow-lg hover:scale-105 transition-transform duration-300 ${isMobile ? "" : (index % 2 === 0 ? "ml-12" : "mr-12")}`}
+              className={`${
+                isMobile ? "w-full ml-12" : "w-5/12"
+              } p-4 md:p-6 rounded-xl backdrop-blur-lg bg-white/10 shadow-lg hover:scale-105 transition-transform duration-300 ${
+                isMobile
+                  ? ""
+                  : index % 2 === 0
+                  ? "ml-12"
+                  : "mr-12"
+              }`}
             >
               <h3 className="text-xl md:text-2xl font-bold text-yellow-400 mb-2 md:mb-3">
                 {event.title}
               </h3>
-              <p className="text-sm md:text-base text-gray-200">{event.description}</p>
+              <p className="text-sm md:text-base text-gray-200">
+                {event.description}
+              </p>
             </div>
           </motion.div>
         ))}

@@ -26,48 +26,56 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? "bg-black/80 backdrop-blur-md" : "bg-transparent"
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 backdrop-blur-sm ${
+        isScrolled ? "bg-black/80 shadow-lg" : "bg-transparent"
       }`}
     >
-      <div className="relative flex justify-between items-center px-6 py-6 md:py-8">
+      <div className="relative flex justify-between items-center px-6 py-6 md:py-8 max-w-7xl mx-auto">
         {/* Logo */}
-        <Link to="/" className="text-2xl md:text-3xl font-extrabold text-white tracking-wide">
-          CODESPRINT
+        <Link
+          to="/"
+          className="text-2xl md:text-3xl font-extrabold text-white tracking-wide"
+        >
+          <img src="/Assests/college.png" alt="logo" className="h-10" />
         </Link>
 
         {/* Desktop NavLinks */}
         <ul className="hidden md:flex flex-1 justify-center space-x-12">
-          {navLinks.map((link) => (
-            <li key={link.id}>
-              {link.path.startsWith("/") ? (
-                <Link
-                  to={link.path}
-                  className={`cursor-pointer text-lg transition-colors ${
-                    link.label === "Register"
-                      ? "px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700"
-                      : "text-white hover:text-red-500"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  href={link.path}
-                  className="cursor-pointer text-lg text-white hover:text-red-500 transition-colors"
-                >
-                  {link.label}
-                </a>
-              )}
-            </li>
-          ))}
+          {navLinks.map(({ id, label, path }) => {
+            const isActive =
+              path === location.pathname || (path !== "/" && location.hash === path);
+
+            return (
+              <li key={id} className="relative group">
+                {path.startsWith("/") ? (
+                  <Link
+                    to={path}
+                    className={`cursor-pointer text-lg font-medium transition-colors ${
+                      isActive
+                        ? "text-red-500 after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-red-500"
+                        : "text-white hover:text-red-500"
+                    }`}
+                  >
+                    {label}
+                    {!isActive && (
+                      <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+                    )}
+                  </Link>
+                ) : (
+                  <a
+                    href={path}
+                    className="cursor-pointer text-lg text-white hover:text-red-500 transition-colors"
+                  >
+                    {label}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         {/* Mobile Menu Button */}
-        <div
-          className="md:hidden text-white z-50"
-          onClick={toggleMenu}
-        >
+        <div className="md:hidden text-white z-50" onClick={toggleMenu}>
           {isOpen ? <FaTimes size={28} /> : <FaBars size={28} />}
         </div>
 
