@@ -13,7 +13,7 @@ const Admin = () => {
 
   // Fetch data
   useEffect(() => {
-    fetch("http://localhost:5000/api/registrations")
+    fetch("https://codesprint3.onrender.com")
       .then((res) => res.json())
       .then((json) => {
         setData(json);
