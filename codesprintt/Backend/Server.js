@@ -1,16 +1,19 @@
+// Backend/Server.js
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
 const app = express(); // ✅ only declare once
-
 const PORT = process.env.PORT || 5000;
+
+// Frontend URL (use env variable or fallback)
+const FRONTEND_URL = process.env.FRONTEND_URL || "https://codesprint-delta.vercel.app";
 
 // CORS middleware
 app.use(cors({
-  origin: "https://codesprint-delta.vercel.app/", // Or "*" if testing
-  methods: "GET,POST,PUT,DELETE",
+  origin: FRONTEND_URL,
+  methods: ["GET","POST","PUT","DELETE"],
   credentials: true
 }));
 
