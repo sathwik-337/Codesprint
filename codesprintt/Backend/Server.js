@@ -1,5 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const cors = require("cors");
+
+app.use(cors({
+  origin: "https://codesprint-delta.vercel.app/", // Or "*" if testing
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true
+}));
+
 const fs = require('fs');
 const path = require('path');
 
