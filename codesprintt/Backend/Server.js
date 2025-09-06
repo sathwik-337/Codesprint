@@ -1,22 +1,20 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const fs = require('fs');
+const path = require('path');
 
+const app = express(); // ✅ only declare once
 
+const PORT = process.env.PORT || 5000;
+
+// CORS middleware
 app.use(cors({
   origin: "https://codesprint-delta.vercel.app/", // Or "*" if testing
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
 
-const fs = require('fs');
-const path = require('path');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
+// Built-in middleware
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -39,12 +37,10 @@ app.post('/api/register', (req, res) => {
   try {
     const { teamName, members } = req.body;
 
-    // Validation: Team name is required
     if (!teamName || teamName.trim() === '') {
       return res.status(400).json({ error: 'Team name is required' });
     }
 
-    // If members is a string, convert to array
     let membersList = members;
     if (typeof members === 'string') {
       membersList = members.split(',').map(m => m.trim()).filter(m => m !== '');
@@ -60,14 +56,11 @@ app.post('/api/register', (req, res) => {
       timestamp: new Date().toISOString(),
     };
 
-    // Read existing data
     const fileContent = fs.readFileSync(dataFilePath, 'utf8');
     const existingData = JSON.parse(fileContent);
 
-    // Add new registration
     existingData.push(registrationData);
 
-    // Write updated data back to file
     fs.writeFileSync(dataFilePath, JSON.stringify(existingData, null, 2));
 
     res.status(200).json({ message: 'Registration successful', data: registrationData });
